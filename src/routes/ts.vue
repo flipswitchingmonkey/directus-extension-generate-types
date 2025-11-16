@@ -26,6 +26,9 @@
         <v-checkbox v-model="includePresentation" @click="generateTypes">
           <span> Include Presentation fields as optional </span>
         </v-checkbox>
+        <v-checkbox v-model="includeItemsServiceHelper" @click="generateTypes">
+          <span> Include ItemsService helper </span>
+        </v-checkbox>
       </div>
     </div>
   </private-view>
@@ -46,12 +49,15 @@ export default {
     const sdk11 = localStorage.getItem('directus-extension-generate-types-sdk11') !== 'false'
     const includePresentation =
       localStorage.getItem('directus-extension-generate-types-include-presentation') !== 'false'
+    const includeItemsServiceHelper =
+      localStorage.getItem('directus-extension-generate-types-include-itemsservicehelper') !== 'false'
     return {
       types: '',
       languages,
       useIntersectionTypes,
       sdk11,
       includePresentation,
+      includeItemsServiceHelper,
       loading: false,
     }
   },
@@ -60,7 +66,17 @@ export default {
       localStorage.setItem('directus-extension-generate-types-use-intersection-types', this.useIntersectionTypes)
       localStorage.setItem('directus-extension-generate-types-sdk11', this.sdk11)
       localStorage.setItem('directus-extension-generate-types-include-presentation', this.includePresentation)
-      generateTsTypes(this.api, this.useIntersectionTypes, this.sdk11, this.includePresentation).then((types) => {
+      localStorage.setItem(
+        'directus-extension-generate-types-include-itemsservicehelper',
+        this.includeItemsServiceHelper
+      )
+      generateTsTypes(
+        this.api,
+        this.useIntersectionTypes,
+        this.sdk11,
+        this.includePresentation,
+        this.includeItemsServiceHelper
+      ).then((types) => {
         this.types = types
         this.loading = false
       })

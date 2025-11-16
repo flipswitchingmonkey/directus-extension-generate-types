@@ -5,10 +5,12 @@ export default async function generateTsTypes(
   api,
   useIntersectionTypes = false,
   sdk11 = true,
-  includePresentation = true
+  includePresentation = true,
+  includeItemsServiceHelper = true
 ) {
   const collections = await getCollections(api)
   let ret = ''
+  if (includeItemsServiceHelper) ret += `import { Accountability, ApiExtensionContext } from '@directus/types'\n\n`
   const types = []
 
   Object.values(collections).forEach((collection) => {
@@ -36,6 +38,37 @@ export default async function generateTsTypes(
 
   ret += '\n'
 
+  if (includeItemsServiceHelper) {
+    ret += `
+export async function itemsServiceHelper<T>(
+  context: ApiExtensionContext & { accountability?: Accountability | undefined | null },
+  collection: keyof CustomDirectusTypes,
+  accountability: Accountability | undefined | null = null
+  ) {
+    if (!accountability && 'accountability' in context) accountability = context.accountability
+    const schema = await context.getSchema()
+    const ItemsService = context.services.ItemsService
+    return new ItemsService<T>(collection, { schema, accountability })
+    }
+`
+
+    ret += '\n'
+
+    ret += `export const CustomDirectusTypesItemsServices = {`
+
+    Object.values(collections).forEach((collection) => {
+      const collectionName = collection.collection
+      const typeName = pascalCase(collectionName)
+      // const isSingleton = collection.meta?.singleton === true
+      ret += `${collectionName}: (
+            context: ApiExtensionContext & { accountability?: Accountability | undefined | null },
+            accountability: Accountability | undefined | null = null
+          ) => itemsServiceHelper<${typeName}>(context, '${collectionName}', accountability),`
+    })
+
+    ret += `
+      }\n`
+  }
   return ret
 }
 

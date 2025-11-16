@@ -24,9 +24,6 @@ importers:
       axios:
         specifier: 1.13.2
         version: 1.13.2
-      sass:
-        specifier: 1.94.0
-        version: 1.94.0
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -3959,6 +3956,7 @@ snapshots:
   chokidar@4.0.3:
     dependencies:
       readdirp: 4.1.2
+    optional: true
 
   cli-cursor@5.0.0:
     dependencies:
@@ -4310,7 +4308,8 @@ snapshots:
     dependencies:
       postcss: 8.5.6
 
-  immutable@5.1.4: {}
+  immutable@5.1.4:
+    optional: true
 
   import-fresh@3.3.1:
     dependencies:
@@ -4750,7 +4749,8 @@ snapshots:
     dependencies:
       safe-buffer: 5.2.1
 
-  readdirp@4.1.2: {}
+  readdirp@4.1.2:
+    optional: true
 
   rechoir@0.8.0:
     dependencies:
@@ -4855,6 +4855,7 @@ snapshots:
       source-map-js: 1.2.1
     optionalDependencies:
       '@parcel/watcher': 2.5.1
+    optional: true
 
   sax@1.4.3: {}
 
