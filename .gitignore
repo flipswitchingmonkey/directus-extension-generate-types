@@ -4,3 +4,7 @@ dist
 yarn-error.log
 /test
 /dev
+docker/postgresql/**
+
+!.gitignore
+!.gitkeep

@@ -1,0 +1,41 @@
+name: directus-extension-generate-types
+
+networks:
+  directus:
+
+services:
+  db:
+    image: postgres:18
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: directus
+      POSTGRES_USER: directus
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./postgresql:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -p 5432 -U directus"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - directus
+  directus:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - 8055:8055
+    volumes:
+      - ./uploads:/directus/uploads
+      - ./config.json:/directus/config.json
+      - ../dist:/directus/extensions/directus-extension-generate-types/dist
+      - ../package.json:/directus/extensions/directus-extension-generate-types/package.json
+    environment:
+      CONFIG_PATH: "/directus/config.json"
+    networks:
+      - directus

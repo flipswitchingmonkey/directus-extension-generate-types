@@ -1,0 +1,44 @@
+{
+  "PORT": 8055,
+  "SECRET": "REPLACE_WITH_YOUR_SECRET",
+
+  "ADMIN_EMAIL": "admin@example.com",
+  "ADMIN_PASSWORD": "admin",
+
+  "UPLOADS_PATH": "/directus/uploads",
+  "TEMPLATES_PATH": "/directus/templates",
+
+  "DB_CLIENT": "pg",
+  "DB_HOST": "db",
+  "DB_PORT": 5432,
+  "DB_DATABASE": "directus",
+  "DB_USER": "directus",
+  "DB_PASSWORD": "postgres",
+
+  "RATE_LIMITER_ENABELD": false,
+  "RATE_LIMITER_POINTS": 50,
+  "RATE_LIMITER_DURATION": 1,
+  "RATE_LIMITER_STORE": "memory",
+
+  "CACHE_ENABLED": false,
+
+  "EXTENSIONS_PATH": "/directus/extensions",
+  "EXTENSIONS_AUTO_RELOAD": true,
+
+  "WEBSOCKET_ENABLED": true,
+  "WEBSOCKET_HEARTBEAT_ENABLED": true,
+  "WEBSOCKET_HEARTBEAT_PERIOD": 5,
+  "WEBSOCKET_REST_AUTH": "handshake",
+
+  "STORAGE_LOCAL_DRIVER": "local",
+  "STORAGE_LOCAL_ROOT": "/directus/uploads",
+
+  "CORS_ENABLED": true,
+  "CORS_ORIGIN": true,
+  "CORS_METHODS": "GET,POST,PUT,PATCH,DELETE,OPTIONS,SEARCH",
+  "CORS_CREDENTIALS": true,
+  "CORS_ALLOWED_HEADERS": "Authorization,Accept,Content-Type,X-CSRF-Token,X-Requested-With,Accept-Encoding,Origin,Access-Control-Request-Method,Access-Control-Request-Headers",
+  "CORS_EXPOSED_HEADERS": "Content-Range",
+  "ACCEPT_TERMS": true,
+  "NODE_TLS_REJECT_UNAUTHORIZED": 0
+}

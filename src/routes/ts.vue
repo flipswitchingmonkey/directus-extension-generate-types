@@ -7,7 +7,7 @@
       <div v-html="languages['ts'].logo" />
     </template>
     <div class="page">
-      <CodeComponent :value="types" language="typescript" downloadName="types.ts" :loading="loading" />
+      <CodeComponent :value="types" language="typescript" downloadName="generated-types.ts" :loading="loading" />
       <div class="div">
         <p>To use these types with the <code>@directus/sdk</code>, include the <code>types.ts</code> like this:</p>
         <CodeComponent :value="exampleCode()" language="typescript" />
@@ -57,7 +57,6 @@ export default {
   },
   methods: {
     generateTypes() {
-      console.log(window.localStorage)
       localStorage.setItem('directus-extension-generate-types-use-intersection-types', this.useIntersectionTypes)
       localStorage.setItem('directus-extension-generate-types-sdk11', this.sdk11)
       localStorage.setItem('directus-extension-generate-types-include-presentation', this.includePresentation)
