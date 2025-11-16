@@ -11,11 +11,9 @@
         Welcome to <code>generate-types</code> version
         <code>{{ version }}</code>
       </h4>
+      <p>Select the language you want to generate types for on the left to start.</p>
       <p>
-        Select the language you want to generate types for on the left to start.
-      </p>
-      <p>
-        <a href="https://github.com/maltejur/directus-extension-generate-types">
+        <a href="https://github.com/flipswitchingmonkey/directus-extension-generate-types">
           <svg viewBox="0 0 128 128">
             <g fill="currentColor">
               <path
@@ -36,17 +34,17 @@
 </template>
 
 <script language="ts">
-import NavbarComponent from "../components/navigation.vue";
-import { version } from "../../package.json";
+import NavbarComponent from '../components/navigation.vue'
+import { version } from '../../package.json'
 
 export default {
   components: { NavbarComponent },
   data() {
     return {
       version,
-    };
+    }
   },
-};
+}
 </script>
 
 <style scoped>
