@@ -1,9 +1,9 @@
 {
   "include": ["./src/**/*", "./vue-shims.d.ts"],
   "compilerOptions": {
-    "module": "es2015",
-    "moduleResolution": "node",
-    "target": "es2015",
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "bundler",
     "sourceMap": true,
     "allowJs": true,
     "baseUrl": "./src"

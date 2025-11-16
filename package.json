@@ -1,6 +1,6 @@
 {
   "name": "directus-extension-generate-types",
-  "version": "0.6.1",
+  "version": "0.6.1-spark-1",
   "license": "MPL-2.0",
   "keywords": [
     "directus",
@@ -20,12 +20,12 @@
     "dev": "./dev.sh"
   },
   "devDependencies": {
-    "@directus/extensions-sdk": "11.0.1",
-    "@types/prismjs": "^1.26.3",
-    "axios": "^1.6.8",
-    "sass": "^1.72.0",
-    "typescript": "^5.4.2",
-    "vue": "^3.4.21"
+    "@directus/extensions-sdk": "13.0.1",
+    "@types/prismjs": "^1.26.5",
+    "axios": "^1.7.9",
+    "sass": "^1.84.0",
+    "typescript": "^5.7.3",
+    "vue": "^3.5.13"
   },
   "dependencies": {
     "@directus/shared": "^9.24.0",
