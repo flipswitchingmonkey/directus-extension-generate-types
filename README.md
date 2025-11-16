@@ -3,26 +3,26 @@
   <h4 align="center">Create types for your directus project in your favourite language.</h4>
 </p>
 
-![Screenshot_20220519_135945](https://user-images.githubusercontent.com/48161361/169288405-c1589f58-d6e4-4a91-91d6-fc9008c8dd97.png)
+<img width="1588" height="1262" alt="image" src="https://github.com/user-attachments/assets/8d536029-2738-499e-a9e3-b1ed3f719cb9" />
+
+## Motivation
+
+This fork extends this very useful extension with a few custom options that fit my wokflow better. Your mileage may vary.
 
 ### Currently supports
 
 - TypeScript
 - Python Type Hints
 - OpenAPI Specification
-- More soon™
 
-## How to install
+TypeScript includes optional ItemsService helpers for each Collection.
 
-1. Download the latest `index.js` from the [GitHub releases page](https://github.com/maltejur/directus-extension-generate-types/releases).
-2. Put this `index.js` file into `<root of your project>/extensions/modules/generate-types/index.js`
-3. Go into the `Project Settings` of your directus project (`/admin/settings/project`) and enable the `Generate Types` module at the bottom of the page.
+## How to build
 
-## Contribute
+1. `pnpm install`
+2. `pnpm build`
+3. copy `package.json` and `dist`-Folder into your `/extensions` in Directus under a fitting name...
 
-Since I don't know all of the typing systems out there, I would greatly appreciate if you
-would let me know how types for a language you know should look like, or even implement
-the generation of types for that language yourself.
+## How to test
 
-If you find an error or think somthing in the process of generating types for the current
-languages is done in a dumb way, feel free to also open an issue.
+Use the included Docker Compose file to run a simple test setup by running the `./docker/up.sh` script.
