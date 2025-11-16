@@ -5,6 +5,7 @@ yarn-error.log
 /test
 /dev
 docker/postgresql/**
+/out
 
 !.gitignore
 !.gitkeep

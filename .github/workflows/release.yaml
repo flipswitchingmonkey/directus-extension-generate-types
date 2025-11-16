@@ -1,34 +1,44 @@
 on:
   workflow_dispatch:
-    inputs:
-      version:
-        description: Version number
-        required: true
+    # inputs:
+    #   version:
+    #     description: Version number
+    #     required: true
 
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
       - name: Install dependencies
-        run: yarn
-      - name: Bump version
-        run: node .github/scripts/bumpv.js ${{ github.event.inputs.version }}
-      - name: Commit and push changes
-        uses: actions-js/push@master
-        with:
-          branch: master
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          message: Bump version to ${{ github.event.inputs.version }}
+        run: pnpm install
+      # - name: Bump version
+      #   run: node .github/scripts/bumpv.js ${{ github.event.inputs.version }}
+      # - name: Commit and push changes
+      #   uses: actions-js/push@master
+      #   with:
+      #     branch: master
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     message: Bump version to ${{ github.event.inputs.version }}
       - name: Build package
-        run: yarn build
-      - name: Create release
-        uses: "marvinpinto/action-automatic-releases@latest"
+        run: pnpm build
+      - name: Build package
+        run: mkdir -p out/directus-extension-generate-types && cp -R dist out/directus-extension-generate-types/ && cp package.json out/directus-extension-generate-types/
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "${{ github.event.inputs.version }}"
-          prerelease: false
-          title: ${{github.event.inputs.version}}
           files: |
-            dist/index.js
+            out/directus-extension-generate-types
+
+          # bodyFile: "body.md"
+      # - name: Create release
+      #   uses: "marvinpinto/action-automatic-releases@latest"
+      #   with:
+      #     repo_token: "${{ secrets.GITHUB_TOKEN }}"
+      #     automatic_release_tag: "${{ github.event.inputs.version }}"
+      #     prerelease: false
+      #     title: ${{github.event.inputs.version}}
+      #     files: |
+      #       dist/index.js
