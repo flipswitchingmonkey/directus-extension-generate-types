@@ -40,7 +40,7 @@ export default async function generateTsTypes(
 
   if (includeItemsServiceHelper) {
     ret += `
-export async function itemsServiceHelper<T>(
+export async function itemsServiceHelper<T extends Item>(
   context: ApiExtensionContext & { accountability?: Accountability | undefined | null },
   collection: keyof CustomDirectusTypes,
   accountability: Accountability | undefined | null = null
