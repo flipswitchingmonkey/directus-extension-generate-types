@@ -28,12 +28,15 @@ export default async function generateZodTypes(
       ret += field.field.includes('-') ? `"${field.field}"` : field.field
       ret += ': '
       ret += getType(field)
-      if (
-        field.schema?.is_nullable ||
-        isPresentation ||
-        (field.type === 'alias' && field.schema === null && field.meta.special.includes('group'))
-      ) {
+      if (isPresentation || (field.type === 'alias' && field.schema === null && field.meta.special.includes('group'))) {
         ret += `.nullable().optional()`
+      } else {
+        if (field.schema?.is_nullable) {
+          ret += `.nullable()`
+        }
+        if (!field.meta?.required) {
+          ret += `.optional()`
+        }
       }
       ret += ',\n'
     })
