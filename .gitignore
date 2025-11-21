@@ -9,3 +9,4 @@ docker/postgresql/**
 
 !.gitignore
 !.gitkeep
+src/lib/generateTypes/zod_test.ts
