@@ -12,14 +12,6 @@
         <p>To use these types with the <code>@directus/sdk</code>, include the <code>types.ts</code> like this:</p>
         <CodeComponent :value="exampleCode()" language="typescript" />
         <h3 class="type-title">Options</h3>
-        <v-checkbox v-model="useIntersectionTypes" @click="generateTypes">
-          <span>
-            Use Intersection Types (<code>&</code>) instead of Union Types (<code>|</code>) for relational fields.
-            <a href="https://github.com/maltejur/directus-extension-generate-types/pull/3#issuecomment-1037243032">
-              Learn more
-            </a>
-          </span>
-        </v-checkbox>
         <v-checkbox v-model="sdk11" @click="generateTypes">
           <span> Generate Types for Directus SDK >= v11 </span>
         </v-checkbox>
@@ -44,8 +36,6 @@ export default {
   components: { NavbarComponent, CodeComponent },
   inject: ['api'],
   data() {
-    const useIntersectionTypes =
-      localStorage.getItem('directus-extension-generate-types-use-intersection-types') === 'true'
     const sdk11 = localStorage.getItem('directus-extension-generate-types-sdk11') !== 'false'
     const includePresentation =
       localStorage.getItem('directus-extension-generate-types-include-presentation') !== 'false'
@@ -54,7 +44,6 @@ export default {
     return {
       types: '',
       languages,
-      useIntersectionTypes,
       sdk11,
       includePresentation,
       includeItemsServiceHelper,
@@ -63,20 +52,13 @@ export default {
   },
   methods: {
     generateTypes() {
-      localStorage.setItem('directus-extension-generate-types-use-intersection-types', this.useIntersectionTypes)
       localStorage.setItem('directus-extension-generate-types-sdk11', this.sdk11)
       localStorage.setItem('directus-extension-generate-types-include-presentation', this.includePresentation)
       localStorage.setItem(
         'directus-extension-generate-types-include-itemsservicehelper',
         this.includeItemsServiceHelper
       )
-      generateZodTypes(
-        this.api,
-        this.useIntersectionTypes,
-        this.sdk11,
-        this.includePresentation,
-        this.includeItemsServiceHelper
-      ).then((types) => {
+      generateZodTypes(this.api, this.sdk11, this.includePresentation, this.includeItemsServiceHelper).then((types) => {
         this.types = types
         this.loading = false
       })

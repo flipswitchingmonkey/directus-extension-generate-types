@@ -3,14 +3,13 @@ import { getCollections } from '../api'
 
 export default async function generateZodTypes(
   api,
-  useIntersectionTypes = false,
   sdk11 = true,
   includePresentation = true,
   includeItemsServiceHelper = true
 ) {
   const collections = await getCollections(api)
   let ret = `import z from 'zod'\n`
-  if (includeItemsServiceHelper) ret += `import { Accountability, ApiExtensionContext } from '@directus/types'\n`
+  if (includeItemsServiceHelper) ret += `import { Accountability, ApiExtensionContext, Item } from '@directus/types'\n`
   ret += '\n'
   const types = []
 
