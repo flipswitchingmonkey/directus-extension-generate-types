@@ -1,18 +1,44 @@
 import { Field } from 'lib/types'
-import { getCollections } from '../api'
+import { getCollections, getPolicies, getRoles } from '../api'
 
 export default async function generateZodTypes(
   api,
   sdk11 = true,
   includePresentation = true,
-  includeItemsServiceHelper = true
+  includeItemsServiceHelper = true,
+  includeUsefulConsts = true
 ) {
   const collections = await getCollections(api)
   let ret = `import z from 'zod'\n`
   if (includeItemsServiceHelper) ret += `import { Accountability, ApiExtensionContext, Item } from '@directus/types'\n`
   ret += '\n'
-  const types = []
 
+  if (includeUsefulConsts) {
+    const policies = await getPolicies(api)
+    ret += 'export const COLLECTION = {\n'
+    Object.values(collections).forEach((collection) => {
+      const collectionName = collection.collection
+      ret += `  ${pascalCase(collectionName)}: '${collectionName}',\n`
+    })
+    ret += '}\n\n'
+
+    ret += 'export const POLICIES = {\n'
+    policies.forEach((policy) => {
+      let policyName = policy.name
+      if (policyName === '$t:public_label') policyName = 'Public'
+      ret += `  ${pascalCase(policyName)}: '${policy.id}',\n`
+    })
+    ret += '}\n\n'
+
+    const roles = await getRoles(api)
+    ret += 'export const ROLES = {\n'
+    roles.forEach((role) => {
+      ret += `  ${pascalCase(role.name)}: '${role.id}',\n`
+    })
+    ret += '}\n\n'
+  }
+
+  const types = []
   Object.values(collections).forEach((collection) => {
     const collectionName = collection.collection
     const typeName = pascalCase(collectionName)

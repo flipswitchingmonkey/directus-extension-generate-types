@@ -1,9 +1,9 @@
 import type { Collections, Field } from 'lib/types'
-import { Collection as DirectusCollection, Relation } from '@directus/types'
+import { Collection as DirectusCollection, Relation, Policy } from '@directus/types'
 import type { AxiosResponse } from 'axios'
 import { warn } from './console'
 
-export async function getCollections(api) {
+export async function getCollections(api): Promise<Collections> {
   const collectionsRes: AxiosResponse<{ data: DirectusCollection[] }> = await api.get('/collections?limit=-1')
   const rawCollections = collectionsRes.data.data
   const collections: Collections = {}
@@ -51,4 +51,14 @@ export async function getCollections(api) {
       }
   })
   return collections
+}
+
+export async function getPolicies(api): Promise<Policy[]> {
+  const policiesRes: AxiosResponse<{ data: any[] }> = await api.get('/policies?limit=-1')
+  return policiesRes.data.data
+}
+
+export async function getRoles(api): Promise<Policy[]> {
+  const policiesRes: AxiosResponse<{ data: any[] }> = await api.get('/roles?limit=-1')
+  return policiesRes.data.data
 }

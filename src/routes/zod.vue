@@ -21,6 +21,9 @@
         <v-checkbox v-model="includeItemsServiceHelper" @click="generateTypes">
           <span> Include ItemsService helper </span>
         </v-checkbox>
+        <v-checkbox v-model="includeUsefulConsts" @click="generateTypes">
+          <span> Include Useful Constants </span>
+        </v-checkbox>
       </div>
     </div>
   </private-view>
@@ -41,12 +44,15 @@ export default {
       localStorage.getItem('directus-extension-generate-types-include-presentation') !== 'false'
     const includeItemsServiceHelper =
       localStorage.getItem('directus-extension-generate-types-include-itemsservicehelper') !== 'false'
+    const includeUsefulConsts =
+      localStorage.getItem('directus-extension-generate-types-include-useful-consts') !== 'true'
     return {
       types: '',
       languages,
       sdk11,
       includePresentation,
       includeItemsServiceHelper,
+      includeUsefulConsts,
       loading: false,
     }
   },
@@ -58,7 +64,15 @@ export default {
         'directus-extension-generate-types-include-itemsservicehelper',
         this.includeItemsServiceHelper
       )
-      generateZodTypes(this.api, this.sdk11, this.includePresentation, this.includeItemsServiceHelper).then((types) => {
+      localStorage.setItem('directus-extension-generate-types-include-useful-consts', this.includeUsefulConsts)
+      this.loading = true
+      generateZodTypes(
+        this.api,
+        this.sdk11,
+        this.includePresentation,
+        this.includeItemsServiceHelper,
+        this.includeUsefulConsts
+      ).then((types) => {
         this.types = types
         this.loading = false
       })
