@@ -1,14 +1,21 @@
-FROM directus/directus:11.13.2
-LABEL org.opencontainers.image.description="Directus Custom Image For Extension Development"
+# This Dockerfile builds a minimal image that copies the built extensions
+# to a specified destination directory when run.
+# This is useful for initializing Directus with custom extensions as an 
+# init sidecar container.
+# Usage:
+#   docker build -t directus-extension-generate-types .
+# ---------- build stage ----------
+FROM alpine:3.18 AS src
+WORKDIR /data/directus-extension-generate-types
+COPY ./dist ./dist
+COPY ./package.json ./
 
-USER node
-WORKDIR /directus
-HEALTHCHECK CMD wget http://localhost:8055/server/health || exit 1
-
-COPY docker/database-migrations migrations/
-COPY docker/extensions extensions/
-COPY docker/email-templates templates/
-
-### COPY EXTENSION
-# COPY ../dist extensions/directus-extension-generate-types/dist
-# COPY ../package.json extensions/directus-extension-generate-types/package.json
+# ---------- runtime image ----------
+FROM busybox:1.36-musl
+ENV DEST=/initial-extensions
+COPY --from=src /data /source
+ENTRYPOINT [ \
+  "/bin/sh", \
+  "-c", \
+  "echo 'Copying /source -> ${DEST}' && cp -a /source/. ${DEST}" \
+  ]

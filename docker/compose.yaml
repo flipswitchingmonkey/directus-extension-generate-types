@@ -22,10 +22,7 @@ services:
     networks:
       - directus
   directus:
-    image: directus/directus:latest
-    # build:
-    #   context: ..
-    #   dockerfile: Dockerfile
+    image: directus/directus:11.13.2
     depends_on:
       db:
         condition: service_healthy

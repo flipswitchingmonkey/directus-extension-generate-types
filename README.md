@@ -9,6 +9,10 @@
 
 This fork extends this very useful extension with a few custom options that fit my wokflow better. Your mileage may vary.
 
+Since I made a number of deeper changes and also use custom gh actions, I decided to hard fork the repo in the end.
+
+The original can be found at https://github.com/maltejur/directus-extension-generate-types
+
 ### Currently supports
 
 - TypeScript
@@ -16,6 +20,8 @@ This fork extends this very useful extension with a few custom options that fit 
 - OpenAPI Specification
 
 TypeScript includes optional ItemsService helpers for each Collection.
+
+A TypeScript version that includes Zod Schemas is... experimental. I'm not particularly happy with the inferred types coming from Zod.
 
 ## How to build
 
