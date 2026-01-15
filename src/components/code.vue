@@ -2,11 +2,7 @@
   <div class="code">
     <i>
       {{ downloadName }}
-      <v-progress-circular
-        indeterminate
-        v-if="loading && rendered"
-        class="inline-progress"
-      />
+      <v-progress-circular indeterminate v-if="loading && rendered" class="inline-progress" />
     </i>
 
     <div class="generate-types-textarea">
@@ -16,78 +12,59 @@
 
     <div class="buttonRow">
       <v-button class="copyBtn" v-if="isCopySupported" @click="copyValue">
-        <v-icon
-          name="content_copy"
-          style="margin-right: 8px"
-          :disabled="!types"
-        />
-        {{ t("copy") }}
+        <v-icon name="content_copy" style="margin-right: 8px" :disabled="!types" />
+        {{ t('copy') }}
       </v-button>
 
-      <v-button
-        class="downloadBtn"
-        v-on:click="downloadTypes"
-        v-if="this.downloadName"
-      >
-        <v-icon
-          name="cloud_download"
-          style="margin-right: 8px"
-          :disabled="!types"
-        />
-        {{ t("download") }}
+      <v-button class="downloadBtn" v-on:click="downloadTypes" v-if="downloadName">
+        <v-icon name="cloud_download" style="margin-right: 8px" :disabled="!types" />
+        {{ t('download') }}
       </v-button>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import Prism from "prismjs";
-import download from "../lib/download";
-import { useStores } from "@directus/extensions-sdk";
-import { useClipboard } from "../utils/use-clipboard";
-import { useI18n } from "vue-i18n";
+<script setup lang="ts">
+import { computed } from 'vue'
+import Prism from 'prismjs'
+import download from '../lib/download'
+import { useStores } from '@directus/extensions-sdk'
+import { useClipboard } from '../utils/use-clipboard'
+// @ts-expect-error available at runtime
+import { useI18n } from 'vue-i18n'
 
-export default {
-  props: {
-    value: String,
-    language: String,
-    downloadName: String,
-    loading: Boolean,
-  },
-  computed: {
-    rendered() {
-      return Prism.highlight(
-        this.value,
-        Prism.languages[this.language],
-        this.language
-      );
-    },
-  },
-  methods: {
-    downloadTypes() {
-      download(this.value, this.downloadName, "application/json");
-    },
-  },
-  setup(props) {
-    const { useNotificationsStore } = useStores();
-    const notificationStore = useNotificationsStore();
-    const { t } = useI18n();
-    const { isCopySupported, copyToClipboard } = useClipboard();
+const props = defineProps<{
+  value: string
+  language: string
+  downloadName?: string
+  loading?: boolean
+}>()
 
-    async function copyValue() {
-      await copyToClipboard(props.value, notificationStore);
-    }
+const types = computed(() => props.value)
 
-    return { isCopySupported, copyValue, t };
-  },
-};
+const { useNotificationsStore } = useStores()
+const notificationStore = useNotificationsStore()
+const { t } = useI18n()
+const { isCopySupported, copyToClipboard } = useClipboard()
+
+const rendered = computed(() => {
+  return Prism.highlight(props.value, Prism.languages[props.language], props.language)
+})
+
+function downloadTypes() {
+  download(props.value, props.downloadName, 'application/json')
+}
+
+async function copyValue() {
+  await copyToClipboard(props.value, notificationStore)
+}
 </script>
 
 <style scoped>
 .code {
   display: flex;
   flex-direction: column;
-  width: 600px;
+  min-width: 600px;
   max-width: 100%;
   margin-top: 10px;
   margin-bottom: 25px;

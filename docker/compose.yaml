@@ -22,9 +22,7 @@ services:
     networks:
       - directus
   directus:
-    build:
-      context: ..
-      dockerfile: Dockerfile
+    image: directus/directus:11.13.2
     depends_on:
       db:
         condition: service_healthy
@@ -33,8 +31,11 @@ services:
     volumes:
       - ./uploads:/directus/uploads
       - ./config.json:/directus/config.json
+      - ./extensions:/directus/extensions/
       - ../dist:/directus/extensions/directus-extension-generate-types/dist
       - ../package.json:/directus/extensions/directus-extension-generate-types/package.json
+      - ./database-migrations:/directus/migrations/
+      - ./email-templates:/directus/templates/
     environment:
       CONFIG_PATH: "/directus/config.json"
     networks:

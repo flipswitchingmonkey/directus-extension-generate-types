@@ -2,6 +2,7 @@ import IndexComponent from './routes/index.vue'
 import TsComponent from './routes/ts.vue'
 import OasComponent from './routes/oas.vue'
 import PyComponent from './routes/py.vue'
+import ZodComponent from './routes/zod.vue'
 import 'prismjs'
 import 'prismjs/themes/prism-solarizedlight.min.css'
 import 'prismjs/components/prism-clike'
@@ -27,6 +28,10 @@ export default defineModule({
     {
       path: '/generate-types/ts',
       component: TsComponent,
+    },
+    {
+      path: '/generate-types/zod',
+      component: ZodComponent,
     },
     {
       path: '/generate-types/oas',
